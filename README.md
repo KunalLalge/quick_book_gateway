@@ -36,22 +36,22 @@
 
 4. Inherit all classes with Service::Record Class, class should look like below
 
-    class Customer < Service::Record
-    end
+        class Customer < Service::Record
+        end
 
-    class Vendor < Service::Record
-    end
+        class Vendor < Service::Record
+        end
 
-    class Item < Service::Record
-    end
+        class Item < Service::Record
+        end
 
 5.  You are ready to create, fetch or modify any data on Quickbook.
     
     For ex.
 
-    customer = Customer.find(DisplayName: "Kunal")
-    customer.CompanyName = "Kunal Lalge"
-    customer.save!
+        customer = Customer.find(DisplayName: "Kunal")
+        customer.CompanyName = "Kunal Lalge"
+        customer.save!
 
 6.  For attributes reference read Documentation reference for each class on Quickbook link provided above.
 
@@ -69,7 +69,7 @@
         after_destroy       -   Executes every time after destroy an object
 
     Example 
-    
+
         class Customer < Service::Record
             def after_create
                 puts "New customer is created on QB"
