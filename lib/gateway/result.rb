@@ -6,7 +6,7 @@ module Gateway
     include Errors
     
     def handle_query_result(response)
-      if(response.code == "200")
+      if(response.status.to_i == 200)
         result = JSON.parse(response.body)
         
         if result["Fault"]

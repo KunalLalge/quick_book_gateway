@@ -90,6 +90,7 @@ module Service
       
       qb_record = find(options.dup)
       
+      options.delete(:conditions)
       qb_record = new(options) unless qb_record
       
       return qb_record

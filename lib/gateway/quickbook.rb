@@ -53,7 +53,6 @@ module Gateway
       gateway.consumer = OAuth2::Client.new(options[:client_id], options[:client_secret], {:token_url => 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer', auth_scheme: :basic_auth})
       gateway.access_token = OAuth2::AccessToken.new(gateway.consumer, nil, {refresh_token: options[:refresh_token]})
       gateway.access_token = gateway.access_token.refresh!
-
       
       gateway.company_id = options[:company_id]
       
@@ -75,7 +74,7 @@ module Gateway
     
     public
     def get(path, parameters = {})
-      return handle_query_result(self.access_token.get(url(path, parameters), {"Accept" => HTTP::JSON}))
+      return handle_query_result(self.access_token.get(url(path, parameters), {headers: {"Accept" => HTTP::JSON}}))
     end
     
     def query_data(query)
@@ -83,7 +82,7 @@ module Gateway
     end
     
     def post(path, parameters, body)
-      return handle_query_result(self.access_token.post(url(path, parameters), body,  {"Content-Type" => HTTP::JSON, "Accept" => HTTP::JSON}))
+      return handle_query_result(self.access_token.post(url(path, parameters), body,  {headers: {"Content-Type" => HTTP::JSON, "Accept" => HTTP::JSON}}))
     end
   end
 end
