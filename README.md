@@ -69,6 +69,7 @@
         after_destroy       -   Executes every time after destroy an object
 
     Example 
+    
         class Customer < Service::Record
             def after_create
                 puts "New customer is created on QB"
