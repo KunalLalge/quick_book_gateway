@@ -20,11 +20,17 @@
 2. Configure Quickbook by adding below line to your ruby program
 
     Gateway::Quickbook.connect(
+
             :client_id      =>   QuickBook App Client ID,
+
             :client_secret  =>   QuickBook App Client Secret,
+
             :refresh_token  =>   Can generate from playground https://developer.intuit.com/app/developer/playground, validate for 100 days
+
             :company_id     =>   QuickBook Company ID,
+
             :environment    =>   ENVIRONMENT::SANDBOX or ENVIRONMENT::PRODUCTION
+            
         )
 
 3.  Create classes with names provided on Quickbook website 
@@ -87,6 +93,7 @@
 ## UPDATES
 
 0.0.4   - find_all will fetch all records using pagination
+
 0.0.5   - Quickbook OAuth 2.0 security upgradation implemented
 
 
