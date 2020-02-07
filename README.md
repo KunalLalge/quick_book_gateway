@@ -19,18 +19,12 @@
 
 2. Configure Quickbook by adding below line to your ruby program
 
-    Gateway::Quickbook.connect(
-
+        Gateway::Quickbook.connect(
             :client_id      =>   QuickBook App Client ID,
-
             :client_secret  =>   QuickBook App Client Secret,
-
             :refresh_token  =>   Can generate from playground https://developer.intuit.com/app/developer/playground, validate for 100 days
-
             :company_id     =>   QuickBook Company ID,
-
             :environment    =>   ENVIRONMENT::SANDBOX or ENVIRONMENT::PRODUCTION
-            
         )
 
 3.  Create classes with names provided on Quickbook website 
@@ -65,24 +59,16 @@
   
 7.  One can also use callbacks, below are list of callbacks:
 
-    
-    before_save         -   Executes every time before object save
+        before_save         -   Executes every time before object save
+        after_save          -   Executes every time after object save
+        before_create       -   Executes only before new object save
+        after_create        -   Executes only after new object save
+        before_update       -   Executes only before existing object save
+        after_update        -   Executes only after existing object save
+        before_destroy      -   Executes every time before destroy an object
+        after_destroy       -   Executes every time after destroy an object
 
-    after_save          -   Executes every time after object save
-
-    before_create       -   Executes only before new object save
-
-    after_create        -   Executes only after new object save
-
-    before_update       -   Executes only before existing object save
-
-    after_update        -   Executes only after existing object save
-
-    before_destroy      -   Executes every time before destroy an object
-
-    after_destroy       -   Executes every time after destroy an object
-
-    Ex. 
+    Example 
         class Customer < Service::Record
             def after_create
                 puts "New customer is created on QB"
