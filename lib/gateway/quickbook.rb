@@ -1,4 +1,4 @@
-require 'oauth'
+require 'oauth2'
 
 module Gateway
   class Quickbook < Result
@@ -32,34 +32,28 @@ module Gateway
     #Options are as follow
     #   String: Environment ENVIRONMENT::SANDBOX or ENVIRONMENT::PRODUCTION. AutoLoad QuickBook key, secret, access token, access secret, company ID from config/quickbook.yml corresponding to environment given.
     #   Hash: 
-    #     :qb_key       =>   QuickBook Key,
-    #     :qb_secret    =>   QuickBook Secret,
-    #     :token        =>   Access Token,
-    #     :secret       =>   Access Sceret,
-    #     :company_id   =>   QuickBook Company ID,
-    #     :environment  =>   ENVIRONMENT::SANDBOX or ENVIRONMENT::PRODUCTION
+    #     :client_id      =>   QuickBook App Client ID,
+    #     :client_secret  =>   QuickBook App Client Secret,
+    #     :refresh_token  =>   Can generate from playground https://developer.intuit.com/app/developer/playground, validate for 100 days
+    #     :company_id     =>   QuickBook Company ID,
+    #     :environment    =>   ENVIRONMENT::SANDBOX or ENVIRONMENT::PRODUCTION
     def self.connect(options)   
       if(options.class == String)
         configuration = YAML.load_file("config/quickbook.yml")
         environment = options
         options = Hash.new
-        options[:qb_key] = configuration[environment]["key"]
-        options[:qb_secret] =   configuration[environment]["secret"]
-        options[:token] =   configuration[environment]["access_token"]
-        options[:secret] =   configuration[environment]["access_secret"]
+        options[:client_id] = configuration[environment]["client_id"]
+        options[:client_secret] =   configuration[environment]["client_secret"]
+        options[:refresh_token] =   configuration[environment]["refresh_token"]
         options[:company_id] =   configuration[environment]["company_id"]
         options[:environment] = environment
       end
       
       gateway = new
-      gateway.consumer = OAuth::Consumer.new(options[:qb_key], options[:qb_secret], {
-          :site                 => "https://oauth.intuit.com",
-          :request_token_path   => "/oauth/v1/get_request_token",
-          :authorize_url        => "https://appcenter.intuit.com/Connect/Begin",
-          :access_token_path    => "/oauth/v1/get_access_token"
-        })
-      
-      gateway.access_token = OAuth::AccessToken.new(gateway.consumer, options[:token], options[:secret])
+      gateway.consumer = OAuth2::Client.new(options[:client_id], options[:client_secret], {:token_url => 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer', auth_scheme: :basic_auth})
+      gateway.access_token = OAuth2::AccessToken.new(gateway.consumer, nil, {refresh_token: options[:refresh_token]})
+      gateway.access_token = gateway.access_token.refresh!
+
       
       gateway.company_id = options[:company_id]
       
