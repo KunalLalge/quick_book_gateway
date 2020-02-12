@@ -82,7 +82,7 @@ module Gateway
     end
     
     def post(path, parameters, body)
-      return handle_query_result(self.access_token.post(url(path, parameters), body,  {headers: {"Content-Type" => HTTP::JSON, "Accept" => HTTP::JSON}}))
+      return handle_query_result(self.access_token.post(url(path, parameters), {body: body, headers: {"Content-Type" => HTTP::JSON, "Accept" => HTTP::JSON}}))
     end
   end
 end

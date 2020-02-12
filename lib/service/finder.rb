@@ -70,7 +70,7 @@ module Service
     #     Or you can directly provide Id of record.
     #     For ex. if you want to fetch customer with Id 1, then Customer.find(1)
     def find(options = {})
-      if(options.class == Fixnum)
+      if(options.class == Integer)
         model = self.new(quickbook_gateway.get("#{entity.downcase}/#{options}")[entity]) 
         model.is_new_record = false
         return model
